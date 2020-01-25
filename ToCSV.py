@@ -48,9 +48,6 @@ def main(path):
     r = re.finditer('deadCount',raw)
     for i in r:
         deadCountpot.append(i.span())
-    r = re.finditer('comment',raw)
-    for i in r:
-        commentpot.append(i.span())
     r = re.finditer('cityName',raw)
     for i in r:
         cityNamepot.append(i.span())
@@ -69,8 +66,6 @@ def main(path):
     curedCount=[]
     # province & cities
     deadCount=[]
-    # for province
-    comment=[]
     # for cities
     cityName=[]
     cities=[]
@@ -100,10 +95,6 @@ def main(path):
         startPos=raw[pot[1]:].find(char_start)
         endPos=raw[pot[1]:].find(char_end)
         deadCount.append(raw[pot[1]+startPos+1:pot[1]+endPos])
-    for pot in commentpot:
-        startPos=raw[pot[1]:].find(char_start)
-        endPos=raw[pot[1]:].find(char_end)
-        comment.append(raw[pot[1]+startPos+1:pot[1]+endPos])
     for pot in cityNamepot:
         startPos=raw[pot[1]:].find(char_start)
         endPos=raw[pot[1]:].find(char_end)
@@ -124,7 +115,6 @@ def main(path):
         if CitiesOfProvince[i] != 0:
             for city in range(CitiesOfProvince[i]):
                 ProvinceName.append(cityName[city])
-                comment.append('')
             for city in range(CitiesOfProvince[i]):
                 del cityName[0]
 
@@ -135,10 +125,9 @@ def main(path):
             'Confirmed':confirmedCount,
             'Suspected':suspectedCount,
             'Cured':curedCount,
-            'Dead':deadCount,
-            'Comment': comment
+            'Dead':deadCount
             }
-    df = DataFrame(virus, columns= ['Province&City','Confirmed','Suspected','Cured','Dead','Comment'])
+    df = DataFrame(virus, columns= ['Province&City','Confirmed','Suspected','Cured','Dead'])
     export_csv = df.to_csv (r''+path+str(ts)+'.csv', index = None, header=True, encoding='utf-8-sig')
 
 path="C:/Users/Administrator/Desktop/WuHan_19nCov-master/"
